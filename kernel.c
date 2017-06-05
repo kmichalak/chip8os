@@ -53,6 +53,9 @@ void kmain(void) {
 			print("VIDEO_TYPE_MONOCHROME");
 			break;
 	}
+
+	print("Everything works fine.\n");
+
 	return;
 }
 

@@ -26,7 +26,8 @@ seg_desc_t create_descriptor(uint32_t base, uint32_t limit, uint8_t flags) {
 		if ((limit & 0xfff) != 0xfff) {
 			// this is a wrong case, you are trying to address something bad
 			// we can fix it by setting all 12 bits of the limit to 1
-			// or we can raise some error  
+			// or we can raise some error
+			return -1;
 		} else {
 			descriptor_bytes[6] = MODE_32BIT;
 			// Adjust granularity, as all values should change by 4096 bytes.

@@ -26,12 +26,23 @@ static void test_create_descriptor(void **state) {
 	assert_true(descriptor == 0x419a0000000000);
 }
 
+static void test_create_descriptor_for_32bit_mode(void **state) {
+	uint32_t base = 0;
+	uint32_t limit = 327679;
+	uint8_t flags = 0x9A;
+
+	seg_desc_t descriptor = create_descriptor(base, limit, flags);
+
+	assert_true(descriptor == 0xC09A000000004F);
+}
+
 int main(int argc, char **varg) {
 
 	const struct CMUnitTest tests[] = {
 		cmocka_unit_test(test_mode_16bit_flag_value),
 		cmocka_unit_test(test_mode_32bit_flag_value),
-		cmocka_unit_test(test_create_descriptor)
+		cmocka_unit_test(test_create_descriptor),
+		cmocka_unit_test(test_create_descriptor_for_32bit_mode)
 	};
 
 	return cmocka_run_group_tests(tests, NULL, NULL);
