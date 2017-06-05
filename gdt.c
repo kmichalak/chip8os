@@ -5,6 +5,11 @@ uint32_t limit(seg_desc_t* descriptor) {
 	uint32_t limit = descriptor_bytes[6] & 0xf;
 	limit = (limit << 8) + descriptor_bytes[1];
 	limit = (limit << 8) + descriptor_bytes[0];
+
+	if ((descriptor_bytes[6] & MODE_32BIT) == MODE_32BIT) {
+		limit = (limit << 12) |  0xFFF;
+	}
+
 	return limit;
 }
 
