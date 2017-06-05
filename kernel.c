@@ -1,5 +1,6 @@
 #include "inc/types.h"
 #include "inc/display.h"
+#include "inc/gdt.h"
 
 uint16_t detect_bios_area_hardware(void) {
 	const uint16_t* bda_detected_hardware_ptr = (const uint16_t*) 0x410;
