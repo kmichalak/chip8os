@@ -52,6 +52,24 @@ static void test_large_limit_selector(void** state) {
 	assert_true(limit_val == 327679);
 }
 
+static void test_base_selector(void **state) {
+	seg_desc_t descriptor = 0xc441075600ffff;
+
+	uint32_t base_val = base(&descriptor);
+
+	assert_true(base_val == 0x75600);
+}
+
+static void test_large_base_selector(void** state) {
+	seg_desc_t descriptor = 0xA5C3419A56000000;
+
+	 uint32_t base_val = base(&descriptor);
+
+	 assert_true(base_val == 0xA59A5600);
+}
+
+
+
 int main(int argc, char **varg) {
 
 	const struct CMUnitTest tests[] = {
@@ -60,8 +78,11 @@ int main(int argc, char **varg) {
 		cmocka_unit_test(test_create_descriptor),
 		cmocka_unit_test(test_create_descriptor_for_32bit_mode),
 		cmocka_unit_test(test_limit_selector),
-		cmocka_unit_test(test_large_limit_selector)
+		cmocka_unit_test(test_large_limit_selector),
+		cmocka_unit_test(test_base_selector),
+		cmocka_unit_test(test_large_base_selector)
 	};
 
 	return cmocka_run_group_tests(tests, NULL, NULL);
 }
+
