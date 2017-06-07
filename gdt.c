@@ -24,7 +24,7 @@ uint32_t base(seg_desc_t* descriptor) {
 
 seg_desc_t create_descriptor(uint32_t base, uint32_t limit, uint8_t flags) {
 	
-	seg_desc_t descriptor = 0;
+	seg_desc_t descriptor;
 	uint8_t* descriptor_bytes = (uint8_t*) &descriptor;
 
 	if (limit > 65536) {
@@ -32,7 +32,7 @@ seg_desc_t create_descriptor(uint32_t base, uint32_t limit, uint8_t flags) {
 			// this is a wrong case, you are trying to address something bad
 			// we can fix it by setting all 12 bits of the limit to 1
 			// or we can raise some error
-			return -1;
+			return descriptor;
 		} else {
 			descriptor_bytes[6] = MODE_32BIT;
 			// Adjust granularity, as all values should change by 4096 bytes.

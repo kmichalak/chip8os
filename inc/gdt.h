@@ -10,7 +10,7 @@ in the following order:
  ____________________________________________________________________________
 |31__________________________________16|15__________________________________0|
 |                                      |                                     |
-|              BASE 16:31              |              Limit 0:15             |                           
+|              BASE 0:15               |              Limit 0:15             |                           
 |                                      |                                     |
 |______________________________________|_____________________________________|
 |63______________56|55______52|51____48|47______________40|39______________32|
@@ -39,7 +39,24 @@ For the 32bit architecture four bits of flags are:
 	(and will throw an exception if you try to use it).
 
 */
-typedef uint64_t seg_desc_t;
+
+typedef struct seg_desc {
+	uint16_t limit_low;
+	uint16_t base_low;
+	uint8_t base_mid;
+	uint8_t access;
+	uint8_t granularity;
+	uint8_t base_high;
+} __attribute__((packed)) seg_desc_t;
+
+
+typedef struct gdt {
+	seg_desc_t null_segment;
+	seg_desc_t unused_segment;
+	seg_desc_t code_segment;
+	seg_desc_t data_segment;
+} __attribute__((packed)) gdt_t ;
+
 
 #define SEG_SET 1
 #define SET_CLEAR 0

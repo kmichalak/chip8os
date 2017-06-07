@@ -24,6 +24,7 @@ void clear_screen(void) {
 }
 
 void print(int8_t* str) {
+	clear_screen();
 	int8_t *vidptr = (int8_t *) 0xb8000;
 
 	unsigned int i = 0;
@@ -39,7 +40,7 @@ void print(int8_t* str) {
 
 void kmain(void) {
 	
-	clear_screen();
+	
 	enum video_type vid = get_bios_area_video_type();
 
 	switch (vid) {
@@ -56,6 +57,14 @@ void kmain(void) {
 
 	print("Everything works fine.\n");
 
-	return;
+	gdt_t gdt;
+	gdt.null_segment = create_descriptor(0, 0, 0);
+	gdt.unused_segment = create_descriptor(0, 0, 0);
+	gdt.code_segment = create_descriptor(0, 64 * 1024 * 1024, 0x9A);
+	gdt.data_segment = create_descriptor(0, 64 * 1024 * 1024, 0x92);
+	
+	print("GDT set.");
+
+	while (1);
 }
 
