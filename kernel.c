@@ -38,7 +38,7 @@ void print(int8_t* str) {
 	}
 }
 
-void kmain(void) {
+void kmain(void* info, uint32_t magic) {
 	
 	
 	enum video_type vid = get_bios_area_video_type();
@@ -63,6 +63,14 @@ void kmain(void) {
 	gdt.code_segment = create_descriptor(0, 64 * 1024 * 1024, 0x9A);
 	gdt.data_segment = create_descriptor(0, 64 * 1024 * 1024, 0x92);
 	
+	gdt_ptr_t gdt_ptr;
+	gdt_ptr.base = (uint32_t*) &gdt;
+	gdt_ptr.limit = sizeof(gdt) - 1;
+
+	// call some sexy function to set the GDT
+
+	asm volatile("lgdt (%0)": :"p" (((uint8_t*) &gdt_ptr) + 1));
+
 	print("GDT set.");
 
 	while (1);

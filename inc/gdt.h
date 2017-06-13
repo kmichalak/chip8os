@@ -58,6 +58,12 @@ typedef struct gdt {
 } __attribute__((packed)) gdt_t ;
 
 
+typedef struct gdt_ptr {
+	uint16_t limit;
+	uint32_t base;
+} __attribute__((packed)) gdt_ptr_t;
+
+
 #define SEG_SET 1
 #define SET_CLEAR 0
 
